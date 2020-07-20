@@ -7,13 +7,25 @@ class CPU:
 
     def __init__(self):
         """Construct a new CPU."""
-        pass
+        
+        #RAM = 256 bytes
+        #registers = [0] * 8
+        #add internal registers as you need (PC)
+        #might need initial value of the stack pointer
+        #add ram_read here?
 
     def load(self):
         """Load a program into memory."""
+        # with open('prog1') as f:
+        #     for line in f:
+        #         v = int(line)
+        #         print(v)
+
+        # sys.exit (0)
 
         address = 0
 
+        
         # For now, we've just hardcoded a program:
 
         program = [
