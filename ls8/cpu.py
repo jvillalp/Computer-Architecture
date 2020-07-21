@@ -7,12 +7,20 @@ class CPU:
 
     def __init__(self):
         """Construct a new CPU."""
-        
-        #RAM = 256 bytes
-        #registers = [0] * 8
-        #add internal registers as you need (PC)
+        self.RAM = [0] * 256
+        self.registers = [0] * 8
+        self.pc = 0
+        self.running = True
+
+    def ram_read(self, mar): # mar = address
+        return self.ram[mar]
+
+    def ram_write(self, mar, mdr): #mdr value
+        self.ram[mar] = mdr
+
         #might need initial value of the stack pointer
         #add ram_read here?
+        #each memory slot has a memory and a value
 
     def load(self):
         """Load a program into memory."""
@@ -74,4 +82,26 @@ class CPU:
 
     def run(self):
         """Run the CPU."""
-        pass
+        HLT = 0b00000001
+        LDI = 0b10000010
+        PRN = 0b01000111
+
+        while running:
+            Instr = self.ram_read(self.pc)
+            reg_a = self.ram_read(self.pc + 1)
+            reg_b = self.ram_read(self.pc +2)
+
+            if Instr == HLT:
+                running = False
+                self.pc += 1
+            elif Instr == LDI:
+                self.registers[reg_a] = reg_b
+                self.pc += 3
+            elif Instr == PRN:
+                print(self.registers[reg_a])
+                self.pc +=2
+            else:
+                running = False
+                sys.exit()
+            
+
