@@ -7,10 +7,10 @@ class CPU:
 
     def __init__(self):
         """Construct a new CPU."""
-        self.RAM = [0] * 256
+        self.ram = [0] * 256
         self.registers = [0] * 8
         self.pc = 0
-        self.running = True
+        # self.running = True
 
     def ram_read(self, mar): # mar = address
         return self.ram[mar]
@@ -24,12 +24,6 @@ class CPU:
 
     def load(self):
         """Load a program into memory."""
-        # with open('prog1') as f:
-        #     for line in f:
-        #         v = int(line)
-        #         print(v)
-
-        # sys.exit (0)
 
         address = 0
 
@@ -86,18 +80,19 @@ class CPU:
         LDI = 0b10000010
         PRN = 0b01000111
 
-        while running:
-            Instr = self.ram_read(self.pc)
+
+        while True:
+            instruction = self.ram_read(self.pc)
             reg_a = self.ram_read(self.pc + 1)
             reg_b = self.ram_read(self.pc +2)
 
-            if Instr == HLT:
+            if instruction == HLT:
                 running = False
                 self.pc += 1
-            elif Instr == LDI:
+            elif instruction == LDI:
                 self.registers[reg_a] = reg_b
                 self.pc += 3
-            elif Instr == PRN:
+            elif instruction == PRN:
                 print(self.registers[reg_a])
                 self.pc +=2
             else:
