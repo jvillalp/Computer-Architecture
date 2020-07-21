@@ -1,3 +1,4 @@
+import sys
 
 PRINT_TIM = 0b01
 HALT = 0b10 #2
@@ -10,26 +11,58 @@ ADD = 0b110 # registers[2] = registers[2] + registers[3]
 #programs stored in RAM
 #save the number 99 into R2
 #print whatever is inside R2
-memory = [
-    PRINT_TIM,
-    PRINT_TIM,
-    PRINT_NUM,
-    42,
-    SAVE, #regist to put it in
-    2, #num to save
-    99,
-    SAVE,
-    3, #register to save in
-    1, #register to save
-    ADD,
-    2, #register to look at in save stuff in
-    3, #other register to look at
-    PRINT_REG,
-    2, #register we want to look at
-    HALT,
+# memory = [
+#     PRINT_TIM,
+#     PRINT_TIM,
+#     PRINT_NUM,
+#     42,
+#     SAVE, #regist to put it in
+#     2, #num to save
+#     99,
+#     SAVE,
+#     3, #register to save in
+#     1, #register to save
+#     ADD,
+#     2, #register to look at in save stuff in
+#     3, #other register to look at
+#     PRINT_REG,
+#     2, #register we want to look at
+#     HALT,
 
-] #rep the RAM, all commands numbers
+# ] #rep the RAM, all commands numbers
 
+
+memory = [0] * 256
+
+def load_memory(file_name):
+    try:
+        address = 0
+        with open(file_name) as file:
+            for line in file:
+                # print(line)
+                split_line = line.split("#")[0]
+                command = split_line.strip()
+                # print(command)
+
+                if command == ' ':
+                    continue
+                instruction = int(command, 2)
+                # print(num )
+                # print(command)
+                # print(f'{num:8b} is {num}')
+                memory[address] = instruction
+                address +=1
+
+
+    except FileNotFoundError:
+        print(f'{sys.argv[0]}: {sys.argv[1]} file not found')
+
+if len(sys.argv) < 2:
+    print('please pass in a secod filename')
+    sys.exit()
+
+file_name = sys.argv[1]
+load_memory(file_name)
 # write a program to pull earch command out of memory and execute
 
 # we can loop over it!
