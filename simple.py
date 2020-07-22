@@ -18,7 +18,7 @@ ADD = 0b110 # registers[2] = registers[2] + registers[3]
 #     42,
 #     SAVE, #regist to put it in
 #     2, #num to save
-#     99,
+#     99, 
 #     SAVE,
 #     3, #register to save in
 #     1, #register to save
