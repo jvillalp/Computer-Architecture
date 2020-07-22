@@ -31,7 +31,7 @@ ADD = 0b110 # registers[2] = registers[2] + registers[3]
 
 # ] #rep the RAM, all commands numbers
 
-
+registers[7] * 0xF4
 memory = [0] * 256
 
 def load_memory(file_name):
@@ -104,5 +104,31 @@ while running:
         sec_reg = memory[pc +2]
         registers[first_reg] = registers[first_reg]  + registers[sec_reg]
         pc +=2
+
+    if command == PUSH:
+        #decrement the stack pointer
+        registers[7] -= 1
+        #get a value
+
+        reg = memory[pc +1]
+        value = registers[reg]
+        # put the value at the address that sp told us 
+        sp = registers[7]
+        memory[sp] = value
+
+        pc +=1
+
+    if command == POP:
+        # get the stack pointer (where do we look?)
+        sp = registers[7]
+        #get register number to put value in
+        reg = memory[pc +1]
+        #use stack pointer
+        value = memory[sp]
+        #put the value into the given register
+        registers[reg] = value
+        #increment our stack pointer
+        registers[7] += 1
+
 
     pc += 1

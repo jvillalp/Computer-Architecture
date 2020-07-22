@@ -22,7 +22,7 @@ class CPU:
         #add ram_read here?
         #each memory slot has a memory and a value
 
-    def load(self):
+    def load(self, file_name):
         """Load a program into memory."""
 
         address = 0
@@ -46,7 +46,7 @@ class CPU:
 
         program =[]
 
-        file_name = sys.argv[1]
+        # file_name = sys.argv[1]
         # load_memory(file_name)
 
         # def load_memory(file_name):
@@ -113,6 +113,7 @@ class CPU:
         HLT = 0b00000001
         LDI = 0b10000010
         PRN = 0b01000111
+        MUL = 0b10100010
         running = True
 
         while True:
@@ -123,13 +124,18 @@ class CPU:
             if instruction == HLT:
                 running = False
                 self.pc += 1
+                sys.exit()
             elif instruction == LDI:
                 self.registers[reg_a] = reg_b
                 self.pc += 3
             elif instruction == PRN:
                 print(self.registers[reg_a])
                 self.pc +=2
+            elif instruction == MUL:
+                self.registers[reg_a] *= self.registers[reg_b]
+                self.pc +=3
             else:
+                print(f'this is not valid')
                 running = False
                 sys.exit()
             
