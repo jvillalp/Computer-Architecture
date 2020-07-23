@@ -24,7 +24,7 @@ class CPU:
         #add ram_read here?
         #each memory slot has a memory and a value
 
-    def load(self, file_name):
+    def load(self,file_name):
         """Load a program into memory."""
 
         address = 0
@@ -61,7 +61,6 @@ class CPU:
                 if command == '':
                     continue
                 instructions = int(command,2)
-                print(instructions)
                 self.ram[address] = instructions
                 address += 1
 
@@ -120,6 +119,8 @@ class CPU:
         MUL = 0b10100010
         POP = 0b01000110
         PUSH = 0b01000101
+        CALL = 0b01010000
+        RET = 0b00010001
         running = True
 
         while True:
