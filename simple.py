@@ -130,5 +130,7 @@ while running:
         #increment our stack pointer
         registers[7] += 1
 
+    
+
 
     pc += 1

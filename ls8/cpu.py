@@ -10,7 +10,9 @@ class CPU:
         self.ram = [0] * 256
         self.registers = [0] * 8
         self.pc = 0
+        self.SP = 7 #stack pointer
         # self.running = True
+
 
     def ram_read(self, mar): # mar = address
         return self.ram[mar]
@@ -44,7 +46,7 @@ class CPU:
         #     self.ram[address] = instruction
         #     address += 1
 
-        program =[]
+        # program =[]
 
         # file_name = sys.argv[1]
         # load_memory(file_name)
@@ -59,11 +61,13 @@ class CPU:
                 if command == '':
                     continue
                 instructions = int(command,2)
-                program.append(instructions)
+                print(instructions)
+                self.ram[address] = instructions
+                address += 1
 
-        for instruction in program:
-            self.ram[address] = instruction
-            address += 1
+        # for instruction in program:
+        #     self.ram[address] = instruction
+        #     address += 1
                         
 
         #     except FileNotFoundError:
@@ -114,26 +118,36 @@ class CPU:
         LDI = 0b10000010
         PRN = 0b01000111
         MUL = 0b10100010
+        POP = 0b01000110
+        PUSH = 0b01000101
         running = True
 
         while True:
             instruction = self.ram_read(self.pc)
-            reg_a = self.ram_read(self.pc + 1)
-            reg_b = self.ram_read(self.pc +2)
+            op_a = self.ram_read(self.pc + 1)
+            op_b = self.ram_read(self.pc +2)
 
+            if instruction == LDI:
+                self.registers[op_a] = op_b
+                self.pc += 3
+            elif instruction == PRN:
+                print(self.registers[op_a])
+                self.pc +=2
+            elif instruction == MUL:
+                self.registers[op_a] *= self.registers[op_b]
+                self.pc +=3
+            elif instruction == PUSH:
+                self.ram_write(self.SP, self.registers[op_a])
+                self.pc +=2
+                self.SP -=1
+            elif instruction == POP:
+                self.registers[op_a] = self.ram_read(self.SP+1)
+                self.SP += 1
+                self.pc += 2
             if instruction == HLT:
                 running = False
                 self.pc += 1
                 sys.exit()
-            elif instruction == LDI:
-                self.registers[reg_a] = reg_b
-                self.pc += 3
-            elif instruction == PRN:
-                print(self.registers[reg_a])
-                self.pc +=2
-            elif instruction == MUL:
-                self.registers[reg_a] *= self.registers[reg_b]
-                self.pc +=3
             else:
                 print(f'this is not valid')
                 running = False
