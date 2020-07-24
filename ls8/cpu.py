@@ -201,9 +201,10 @@ class CPU:
 
             elif instruction == RET:
                 # pop the return address off the stack
+                top_stack = self.registers[self.sp]
                 self.registers[self.sp] += 1
                 # store in PC
-                self.pc = self.ram[ self.registers[self.sp]]
+                self.pc = self.ram[top_stack]
 
             elif instruction == CMP:
                 self.alu("CMP", oper_a, oper_b)
