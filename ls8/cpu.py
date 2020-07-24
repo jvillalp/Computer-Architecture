@@ -3,7 +3,24 @@
 1. The CALL instruction doesn't allow you to pass any arguments. 
 What are some ways to effectively get arguments to a subroutine?
 
-    - Use a stack to push and pop info to a subroutine
+    - CPUs use a stack to store the return address so we know where to go when we hit the RET instruction
+    - CALL will push the address off the instruction after its on the stack
+    - will move the PC to the subroutine address
+    - RET will pop the return address off the stack and will store it in the PC
+(EXAMPLE)
+    00: LDI R0,15
+    03: LDI R1,0B  # Holds the address of the subroutine
+    06: CALL R1
+    08: PRN R0
+    0A: HLT
+
+    0B: ADD R0,10  # Subroutine!
+    0E: RET
+    - EXPLAINED:
+        - go down the line when in call, will hold address of 0b, 
+        - go there and add 10 to R0, get to RET and go to next address after PRN R0) 
+        - and then return to HLT
+
 
 2. What's the result of bitwise-AND between 0b110 and 0b011?
 
@@ -11,7 +28,8 @@ What are some ways to effectively get arguments to a subroutine?
 
 3. Convert the 8-bit binary number 0bXXXXXXXX (PM's choice) to hex.
 
-    - 
+    - create groups of 4 bits(0b 0000 0000)
+
 
 """
 import sys
