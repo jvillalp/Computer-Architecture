@@ -1,6 +1,7 @@
 """CPU functionality."""
 
 import sys
+# print(sys.argv[0])
 
 class CPU:
     """Main CPU class."""
@@ -24,7 +25,7 @@ class CPU:
         #add ram_read here?
         #each memory slot has a memory and a value
 
-    def load(self,file_name):
+    def load(self):
         """Load a program into memory."""
 
         address = 0
@@ -48,17 +49,18 @@ class CPU:
 
         # program =[]
 
-        # file_name = sys.argv[1]
+        file_name = sys.argv[1]
+        
         # load_memory(file_name)
 
         # def load_memory(file_name):
             # try:
         with open(file_name) as file:
             for line in file:
-                split_line = line.split("#")[0]
-                command = split_line.strip()
+                command = line.split("#")[0].strip()
+                
 
-                if command == '':
+                if command == "":
                     continue
                 instructions = int(command,2)
                 self.ram[address] = instructions
@@ -128,7 +130,11 @@ class CPU:
             op_a = self.ram_read(self.pc + 1)
             op_b = self.ram_read(self.pc +2)
 
-            if instruction == LDI:
+            if instruction == HLT:
+                running = False
+                self.pc += 1
+                sys.exit()
+            elif instruction == LDI:
                 self.registers[op_a] = op_b
                 self.pc += 3
             elif instruction == PRN:
@@ -145,12 +151,8 @@ class CPU:
                 self.registers[op_a] = self.ram_read(self.SP+1)
                 self.SP += 1
                 self.pc += 2
-            if instruction == HLT:
-                running = False
-                self.pc += 1
-                sys.exit()
             else:
-                print(f'this is not valid')
+                print(f'this is not valid: at instruction {instruction} at pc {self.pc}')
                 running = False
                 sys.exit()
             
