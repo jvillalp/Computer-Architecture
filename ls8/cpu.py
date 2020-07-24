@@ -128,14 +128,13 @@ class CPU:
 
     def run(self):
         """Run the CPU."""
-        LDI = 0b10000010  # Set the value of a registers to an integer.
-        PRN = 0b01000111  # Print numeric value stored in the given registers.
-        HLT = 0b00000001  # Halt the CPU (and exit the emulator).
+        LDI = 0b10000010  # Set the value of a register to an integer.
+        PRN = 0b01000111 
+        HLT = 0b00000001  # stop the CPU
         ADD = 0b10100000
         MUL = 0b10100010
-        PUSH = 0b01000101  # Push the value in the given registers on the stack
-        # Pop the value at the top of the stack into the given registers.
-        POP = 0b01000110
+        PUSH = 0b01000101  # Push the value in the given register on stack
+        POP = 0b01000110   # Pop the value at the top of the stack inside the given register
         CALL = 0b01010000
         RET = 0b00010001
         running = True
@@ -167,7 +166,6 @@ class CPU:
 
             elif instruction == PRN:
                 # Print numeric value stored in a given registers
-                # print to the console the decimal integer value that is stored in a given registers
                 print(self.registers[oper_a])
                 self.pc += 2
 
@@ -176,12 +174,12 @@ class CPU:
                 self.pc += 3
 
             elif instruction == MUL:
-                # multiply the values in two registers and the result in registers A.
+                # * the values in two registers and the result in registers A.
                 self.alu("MUL", oper_a, oper_b)
                 self.pc += 3
 
             elif instruction == PUSH:
-                # decrement the SP
+                # decrease the SP
                 self.registers[self.sp] -= 1
                 # store value in memory at SP & push the value in the given register on the stack
                 self.ram[self.registers[self.sp]] = self.registers[oper_a]
@@ -190,12 +188,12 @@ class CPU:
             elif instruction == POP:
                 # store value in memeroy at SP & get value out of the registers
                 self.registers[oper_a] = self.ram[self.registers[self.sp]]
-                # increment the SP
+                # increase the SP
                 self.registers[self.sp] += 1
                 self.pc += 2
 
             elif instruction == CALL:
-                # push if on the stack
+                # push if it is on the stack
                 self.registers[self.sp] -= 1
                 self.ram[self.registers[self.sp]] = self.pc + 2
                 # set the PC to the subroutine address
@@ -204,7 +202,7 @@ class CPU:
             elif instruction == RET:
                 # pop the return address off the stack
                 self.registers[self.sp] += 1
-                # store in the PC
+                # store in PC
                 self.pc = self.ram[ self.registers[self.sp]]
 
             elif instruction == CMP:
@@ -227,12 +225,12 @@ class CPU:
                 self.pc = self.registers[self.ram_read(self.pc + 1)]
 
             elif instruction == HLT:
-                # halt the CPU (and exit the emulator)
+                # stop the CPU 
                 running = False  # get out of while loop
 
             else:
                 print(
                     F" unknown instruction {instruction} at address {self.pc}")
-                sys.exit()  # halts the python program wherever it is
+                sys.exit()  #stops the python program
             
 
