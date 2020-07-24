@@ -29,6 +29,9 @@ What are some ways to effectively get arguments to a subroutine?
 3. Convert the 8-bit binary number 0bXXXXXXXX (PM's choice) to hex.
 
     - create groups of 4 bits(0b 0000 0000)
+    - 0011 1110
+    - 3 14
+    - 3E
 
 
 """
@@ -44,17 +47,14 @@ class CPU:
         self.ram = [0] * 256  # hold 256 bytes of memory 8 bit 2^8 = 256
         self.registers = [0] * 8  # hold 8 general-purpose registerss
         self.sp = 7  # stack pointer
-        self.fl = 0b00000000  # flags registers is a special registers
+        self.fl = 0b00000000  # flags status can change based on operands given to cmp opcode
         #self.fl = [0,0,0]
+
     def ram_read(self, mar): # mar = address
         return self.ram[mar]
 
     def ram_write(self, mar, mdr): #mdr value
         self.ram[mar] = mdr
-
-        #might need initial value of the stack pointer
-        #add ram_read here?
-        #each memory slot has a memory and a value
 
     def load(self):
         """Load a program into memory."""
