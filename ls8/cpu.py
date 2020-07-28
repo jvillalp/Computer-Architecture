@@ -106,20 +106,6 @@ class CPU:
                 # self.fl[0] = 0
                 # self.fl[1] = 0
                 # self.fl[2] = 1
-        elif op == "AND":
-            pass
-        elif op == "OR":
-            pass
-        elif op =="XOR":
-            pass
-        elif op == "NOT":
-            pass
-        elif op == "SHL":
-            pass
-        elif op == "SHR":
-            pass
-        elif op =="MOD":
-            pass
         
         else:
             raise Exception("Unsupported ALU operation")
@@ -249,7 +235,7 @@ class CPU:
 
             else:
                 print(
-                    F" unknown instruction {instruction} at address {self.pc}")
+                    F" unknown instruction {instruction} at place {self.pc}")
                 sys.exit()  #stops the python program
             
 
